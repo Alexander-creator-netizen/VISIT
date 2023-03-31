@@ -11,9 +11,10 @@ import visit.wastepaper.PrintedProduct;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Random;
 import java.util.Set;
 
-public class Visit implements Visiting {
+public class Visit {
 
     static Set<PrintedProduct> packagePersonOne = new HashSet<>();
     static Set<PrintedProduct> packagePersonTwo = new HashSet<>();
@@ -55,83 +56,26 @@ public class Visit implements Visiting {
         Person personOne = new Person("Александр", packagePersonOne);
         Person personTwo = new Person("Дмитрий", packagePersonTwo);
 
-        Visiting.visit(personOne, house);
-        Visiting.visit(personTwo, house);
+        visit(personOne, house);
+        visit(personTwo, house);
     }
 
     private static void listHouse(ArrayList<House> houses) {
         for (House house : houses) {
-            if (house instanceof Library) {
-                System.out.println("Библиотека на улице " +
-                        house.getStreet() + " " + ((Library) house).getName() +
-                        " имеет в наличии: ");
-                getBookLibrary(((Library) house).getBooks());
-                System.out.println();
-            } else if (house instanceof MagazineStore) {
-                System.out.println("Магазин журналов на улице " +
-                        house.getStreet() + " " + ((MagazineStore) house).getName() +
-                        " имеет в наличии: ");
-                getJournalMagStore(((MagazineStore) house).getJournals());
-                System.out.println();
-            }
+            house.getListPrintedProduct();
         }
     }
 
-    private static void getBookLibrary(ArrayList<Book> books) {
-        int count = 1;
-        for (Book book : books) {
-            System.out.println(count + ". " + book.getName());
-            count++;
+    private static void visit(Person person, ArrayList<House> houses) {
+        System.out.println("\n" + person.getName() + " посещает:");
+        for (House house : houses) {
+            house.getNameHouse();
+            person.getMyPackage().add(house.getRandomPrintedProduct());
+        }
+
+        System.out.println("\n" + person.getName() + " читает:");
+        for (PrintedProduct printedProduct : person.getMyPackage()) {
+            printedProduct.listPrintedProduct();
         }
     }
-
-    private static void getJournalMagStore(ArrayList<Journal> journals) {
-        int count = 1;
-        for (Journal journal : journals) {
-            System.out.println(count + ". " + journal.getName());
-            count++;
-        }
-    }
-
-//    public void visit(Person, ArrayList<House> houses) {
-//        System.out.println("\n" + person.getName() + " посещает:");
-//
-//        for (House house : houses) {
-//            if (house instanceof Library) {
-//                System.out.println("библиотеку " + ((Library) house).getName());
-//
-//                person.getMyPackage().add(getRandomBookLibrary((Library) house));
-//
-//            } else if (house instanceof MagazineStore) {
-//                System.out.println("магазин журналов " + ((MagazineStore) house).getName());
-//
-//                person.getMyPackage().add(getRandomJournalStore((MagazineStore) house));
-//            }
-//        }
-//
-//        System.out.println("\n" + person.getName() + " читает:");
-//        for (PrintedProduct printedProduct : person.getMyPackage()) {
-//            if (printedProduct instanceof Book) {
-//                System.out.println("Книгу: " + printedProduct.getName() + ".");
-//            } else if (printedProduct instanceof Journal) {
-//                System.out.println("Журнал: " + printedProduct.getName() + ".");
-//            }
-//        }
-//    }
-
-//    public Book getRandomBookLibrary(Library library) {
-//        Random random = new Random();
-//        int choice = random.nextInt(library.getBooks().size());
-//        Book book = library.getBooks().get(choice);
-//        library.getBooks().remove(choice);
-//        return book;
-//    }
-//
-//    public Journal getRandomJournalStore(MagazineStore magazineStore) {
-//        Random random = new Random();
-//        int choice = random.nextInt(magazineStore.getJournals().size());
-//        Journal journal = magazineStore.getJournals().get(choice);
-//        magazineStore.getJournals().remove(choice);
-//        return journal;
-//    }
 }

@@ -7,6 +7,9 @@ public abstract class PrintedProduct {
         this.name = name;
     }
 
+    public void listPrintedProduct() {
+    }
+
     public String getName() {
         return name;
     }
